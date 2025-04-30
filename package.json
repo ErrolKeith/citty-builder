@@ -1,4 +1,19 @@
 {
-  "name": "quick-spida",
-  "packageManager": "yarn@4.7.0"
+  "name": "citty-builder",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "rm -rf && yarn tsc"
+  },
+  "dependencies": {
+    "citty": "^0.1.6",
+    "crawlee": "^3.13.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "yarn@4.9.1",
+  "volta": {
+    "node": "22.0.0",
+    "yarn": "4.9.1"
+  }
 }
