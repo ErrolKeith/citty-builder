@@ -1,4 +1,4 @@
 import { runMain } from "citty";
-import { sampleCrawler } from "./sample-crawler";
+import { sampleCrawler } from "./examples/sample-crawler";
 
 runMain(sampleCrawler);

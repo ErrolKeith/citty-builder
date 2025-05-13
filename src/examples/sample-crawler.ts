@@ -1,8 +1,8 @@
 import { CheerioCrawler, Dataset } from "crawlee";
-import { CittyBuilder } from "./command/builder";
-import { CommandContext } from "citty";
+import { CittyBuilder } from "../command/builder";
+import { ArgsDef, CommandContext } from "citty";
 
-type SampleCrawlerArgs = {
+interface SampleCrawlerArgs extends ArgsDef {
   url: {
     description: string;
     required: boolean;
