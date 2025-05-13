@@ -1,5 +1,5 @@
 import { CheerioCrawler, Dataset } from "crawlee";
-import { CittyBuilder } from "../command/builder";
+import { CittyBuilder } from "../src/command/builder";
 import { ArgsDef, CommandContext } from "citty";
 
 interface SampleCrawlerArgs extends ArgsDef {
@@ -7,7 +7,7 @@ interface SampleCrawlerArgs extends ArgsDef {
     description: string;
     required: boolean;
   };
-};
+}
 
 const crawlRunner: (
   context: CommandContext<SampleCrawlerArgs>
