@@ -1,4 +1,20 @@
+import { CittyBuilder } from "./command/builder";
+import type {
+  ArgsDef,
+  CommandContext,
+  CommandDef,
+  CommandMeta,
+  SubCommandsDef,
+  RunMainOptions,
+} from "citty";
 import { runMain } from "citty";
-import { sampleCrawler } from "../examples/sample-crawler";
 
-runMain(sampleCrawler);
+export { CittyBuilder, runMain };
+export type {
+  ArgsDef,
+  CommandContext,
+  CommandDef,
+  CommandMeta,
+  RunMainOptions,
+  SubCommandsDef,
+};
