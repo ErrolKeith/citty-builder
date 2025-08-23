@@ -1,6 +1,6 @@
 import type { ArgsDef, CommandContext, CommandMeta } from "../src/main";
 import { CittyBuilder, runMain } from "../src/main";
-import { CheerioCrawler, Dataset } from "crawlee";
+import { CheerioCrawler } from "crawlee";
 
 const meta: CommandMeta = {
   name: "examples/crawler",
@@ -29,7 +29,7 @@ const runner: (
     async requestHandler({ request, $, enqueueLinks, log }) {
       const title = $("title").text();
 
-      await Dataset.pushData({ title, url: request.loadedUrl });
+      console.log({ title, url: request.loadedUrl });
       await enqueueLinks();
     },
   });
