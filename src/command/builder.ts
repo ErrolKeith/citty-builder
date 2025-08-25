@@ -1,4 +1,5 @@
 import {
+  ArgDef,
   ArgsDef,
   CommandContext,
   CommandDef,
@@ -8,19 +9,26 @@ import {
   SubCommandsDef,
 } from "citty";
 
-export class CittyBuilder<T extends ArgsDef> {
-  private meta: Resolvable<CommandMeta> | undefined;
-  private args: Resolvable<T> | undefined;
-  private subCommands: Resolvable<SubCommandsDef> | undefined;
-  private setup:
-    | ((context: CommandContext<T>) => any | Promise<any>)
-    | undefined;
-  private cleanup:
-    | ((context: CommandContext<T>) => any | Promise<any>)
-    | undefined;
-  private run:
-    | ((context: CommandContext<T>) => any | Promise<any>)
-    | undefined;
+export type CittyDef<T extends CittyArgs> = CommandDef<T>;
+export type CittyMeta = Resolvable<CommandMeta>;
+export type CittyArgDef = ArgDef;
+export interface CittyArgs extends ArgsDef {
+  [x: string]: CittyArgDef;
+}
+export type CittyBuilderArgs<T> = Resolvable<T>;
+export type CittySubcommandsDef = SubCommandsDef;
+export type CittySubCommands = Resolvable<CittySubcommandsDef>;
+export type CittyContextCallback<T extends CittyArgs> = (
+  context: CommandContext<T>
+) => any | Promise<any>;
+
+export class CittyBuilder<T extends CittyArgs> {
+  private meta: CittyMeta | undefined;
+  private args: CittyBuilderArgs<T> | undefined;
+  private subCommands: CittySubCommands | undefined;
+  private setup: CittyContextCallback<T> | undefined;
+  private cleanup: CittyContextCallback<T> | undefined;
+  private run: CittyContextCallback<T> | undefined;
 
   constructor() {}
 
@@ -29,38 +37,32 @@ export class CittyBuilder<T extends ArgsDef> {
     return this;
   }
 
-  public withMeta(meta: Resolvable<CommandMeta>) {
+  public withMeta(meta: CittyMeta) {
     this.meta = meta;
     return this;
   }
 
-  public withSubCommands(subCommands: Resolvable<SubCommandsDef>) {
+  public withSubCommands(subCommands: CittySubCommands) {
     this.subCommands = subCommands;
     return this;
   }
 
-  public withSetupCallback(
-    callback: (context: CommandContext<T>) => any | Promise<any>
-  ) {
+  public withSetupCallback(callback: CittyContextCallback<T>) {
     this.setup = callback;
     return this;
   }
 
-  public withCleanupCallback(
-    callback: (context: CommandContext<T>) => any | Promise<any>
-  ) {
+  public withCleanupCallback(callback: CittyContextCallback<T>) {
     this.cleanup = callback;
     return this;
   }
 
-  public withRunner(
-    callback: (context: CommandContext<T>) => any | Promise<any>
-  ) {
+  public withRunner(callback: CittyContextCallback<T>) {
     this.run = callback;
     return this;
   }
 
-  public getCitty(): CommandDef<T> {
+  public getCitty(): CittyDef<T> {
     return defineCommand({
       meta: this.meta,
       args: this.args,

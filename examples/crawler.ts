@@ -1,12 +1,6 @@
-import type { ArgsDef, CommandContext, CommandMeta } from "../src/main";
+import type { ArgsDef, CittyContextCallback } from "../src/main";
 import { CittyBuilder, runMain } from "../src/main";
 import { CheerioCrawler } from "crawlee";
-
-const meta: CommandMeta = {
-  name: "examples/crawler",
-  version: "1.0.0",
-  description: "Simple Web Crawler",
-};
 
 interface CrawlerArgs extends ArgsDef {
   url: {
@@ -22,9 +16,7 @@ const args: CrawlerArgs = {
   },
 };
 
-const runner: (
-  context: CommandContext<CrawlerArgs>
-) => any | Promise<any> = async ({ args }) => {
+const crawler: CittyContextCallback<CrawlerArgs> = async ({ args }) => {
   const cheerio = new CheerioCrawler({
     async requestHandler({ request, $, enqueueLinks, log }) {
       const title = $("title").text();
@@ -44,9 +36,13 @@ const runner: (
 };
 
 export const executeCrawl = new CittyBuilder<CrawlerArgs>()
-  .withMeta(meta)
+  .withMeta({
+    name: "examples/crawler",
+    version: "1.0.0",
+    description: "Simple Web Crawler",
+  })
   .withArgs(args)
-  .withRunner(runner)
+  .withRunner(crawler)
   .getCitty();
 
 runMain(executeCrawl);
